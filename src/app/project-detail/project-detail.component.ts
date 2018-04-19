@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../models/project';
 import { Subscription } from 'rxjs/Subscription';
 import { PaginationInstance } from 'ngx-pagination';
+import { Api } from '../services/api';
 
 @Component({
   selector: 'app-project-detail',
@@ -30,7 +31,7 @@ export class ProjectDetailComponent implements OnInit {
 
   private sub: Subscription;
 
-  constructor(private _changeDetectionRef: ChangeDetectorRef, private route: ActivatedRoute, private router: Router) { }
+  constructor(private api: Api, private _changeDetectionRef: ChangeDetectorRef, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.loading = true;
