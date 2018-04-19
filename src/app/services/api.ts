@@ -69,11 +69,25 @@ export class Api {
     return this.put(`vclist`, vcsCodes);
   }
 
+  submitDocument(projectId: number, form: FormData, options: Object) {
+    const something = this.post(`commentdocument/${ projectId }/upload`, form, options);
+    return something;
+  }
+
+  submitComment(comment, options) {
+    return this.post(`comment`, comment, options);
+  }
+
   get(apiRoute: string, options?: Object) {
     return this.http.get(`${this.apiPath}/${apiRoute}`, options || null);
   }
 
   put(apiRoute: string, body?: Object, options?: Object) {
     return this.http.put(`${this.apiPath}/${apiRoute}`, body || null, options || null);
+  }
+
+  post(apiRoute: string, body?: FormData, options?: Object) {
+    const something = this.http.post(`${this.apiPath}/${apiRoute}`, body || null, options || null);
+    return something;
   }
 }
