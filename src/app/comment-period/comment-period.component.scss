@@ -1,5 +1,9 @@
 @import "~assets/styles/base.scss";
 
+.hidden {
+  display: none;
+}
+
 .nv-list {
   span {
     &.name {
