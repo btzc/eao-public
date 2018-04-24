@@ -41,6 +41,7 @@ export class SubmitCommentModalComponent {
   }
 
   onSubmit(form) {
+    const htmlForm = <HTMLFormElement>document.getElementById('submitCommentForm');
     const commentPeriodId = this.commentPeriodComponent.commentPeriod._id;
     const projectId = this.commentPeriodComponent.commentPeriod.project._id;
     const commentForm = {
@@ -65,6 +66,8 @@ export class SubmitCommentModalComponent {
 
     this.commentPeriodService.submitComment(projectId, documentsForms, commentForm, options).subscribe(
       data => {
+        htmlForm.reset();
+        this.files = [];
         console.log(data);
       },
       error => console.log(error)
@@ -83,11 +86,15 @@ export class SubmitCommentModalComponent {
   }
 
   hideAllSteps() {
+    const form = <HTMLFormElement>document.getElementById('submitCommentForm');
+    form.reset();
+    this.files = [];
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
     step1.classList.add('hidden');
     step2.classList.add('hidden');
     step3.classList.add('hidden');
+
   }
 }
