@@ -24,41 +24,6 @@
         </button>
         <div class="comments-table bg-muted">
           <section>
-            <table class="activities-table table" id="tableTop" *ngIf="commentPeriod">
-              <thead>
-                <tr>
-                  <th class="sortable" (click)="sort('author')">Posted By
-                    <i class="sort" [ngClass]="{'sort-asc': (column == 'author' && isDesc), 'sort-desc': (column == 'author' && !isDesc) }"
-                      aria-hidden="true"></i>
-                  </th>
-                  <th class="sortable date-col" (click)="sort('dateAdded')">Date
-                      <i class="sort" [ngClass]="{'sort-asc': (column == 'dateAdded' && isDesc), 'sort-desc': (column == 'dateAdded' && !isDesc) }"
-                        aria-hidden="true"></i>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of commentPeriod.comments | orderBy: {property: column, direction: direction} | paginate: config">
-                  <td colspan="2">
-                    <div class="comments-table-item__header">
-                      <h3 class="mb-0">{{item.author}}</h3>
-                      <span class="comment-date">{{item.dateAdded | date: 'mediumDate'}} @ {{item.dateAdded | date: 'shortTime'}}</span>
-                    </div>
-                    <pre class="comments-table-item__body mb-0" [innerHTML]="item.comment"></pre>
-                    <div class="comments-table-item__attachments" *ngIf="item.documents.length !== 0">
-                      <span class="glyph"><i class="material-icons">attach_file</i></span>
-                      <span class="attachments-txt">{{ item.documents.length }} Attachment(s)</span>
-                    </div>
-                    <div class="comments-table-item__badge-container" *ngIf="item.vcs.length !== 0">
-                      <div class="badge badge-info" *ngFor="let vc of item.vcs">
-                        {{vc.name}}
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
             <div role="navigation">
               <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
