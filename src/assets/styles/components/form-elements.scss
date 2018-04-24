@@ -1,17 +1,29 @@
 @import "~assets/styles/base.scss";
 
-.form-group {
-	margin-bottom: 2rem;
+[class^="form-"] {
+	+ .form-group,
+	+ .form-check {
+		margin-top: 1.5rem;
+	 }
 }
 
 .form-control {
 	border-color: $fc-border-color;
-	border-radius: 0;
     background-color: $fc-bg;
     font-size: 0.9375rem;
 
 	&:focus {
 		border-color: $fc-focus-border-color;
+	}
+}
+
+.form {
+	&-check {
+		input  {
+			margin-top: -3px;
+			margin-right: 0.25rem;
+			vertical-align: middle;
+		}
 	}
 }
 

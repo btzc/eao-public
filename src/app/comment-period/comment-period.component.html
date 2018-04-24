@@ -16,15 +16,11 @@
       <section class="mb-0">
         <h2>About this Comment Period...</h2>
         <p>A 30 day public comment period on the {{ commentPeriod.informationLabel }} will start on {{ commentPeriod.dateStarted | date: 'longDate' }} and end on {{ commentPeriod.dateCompleted | date: 'longDate' }}.  All written comments received by online form, fax, or mail during this time period will be considered.</p>
-        <button class="btn submit-btn" (click)="triggerSubmitComment()" data-toggle="modal" data-target="#submitCommentModal">Submit a Comment</button>
-        <div class="modal fade" id="submitCommentModal" tabindex="-1" role="dialog" aria-labelledby="submitCommentModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <app-pcp-info-modal></app-pcp-info-modal>
-            <app-submit-comment-modal></app-submit-comment-modal>
-            <app-submit-comment-progress-modal></app-submit-comment-progress-modal>
-          </div>
-        </div>
-
+        <button class="btn submit-btn" (click)="triggerSubmitComment()" 
+          data-toggle="modal" 
+          data-target="#submitCommentModal"
+          data-backdrop="static">Submit a Comment
+        </button>
         <div class="comments-table bg-muted">
           <section>
             <table class="activities-table table" id="tableTop" *ngIf="commentPeriod">
@@ -115,5 +111,14 @@
         </ul>
       </section>
     </aside>
+  </div>
+</div>
+
+<!-- SUBMIT A COMMENT -->
+<div class="modal fade" id="submitCommentModal" tabindex="-1" role="dialog" aria-labelledby="submitCommentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg submit-comment">
+    <app-pcp-info-modal></app-pcp-info-modal>
+    <app-submit-comment-modal></app-submit-comment-modal>
+    <app-submit-comment-progress-modal></app-submit-comment-progress-modal>
   </div>
 </div>
