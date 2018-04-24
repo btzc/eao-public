@@ -24,7 +24,15 @@
         </div>
         <div class="form-group">
           <label for="file">Upload Attachments</label>
-          <input type="file" class="form-control-file" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple ngModel>
+          <div class="file-upload">
+            <input type="file" class="form-control" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple ngModel>
+            <div class="file-upload__target">
+              <span class="file-upload__info">
+                <span class="file-upload__prompt-msg">Drag Files here or Click to Select Files</span>
+                <span class="file-upload__requirements">Maximum Size 5mb for all uploaded files</span>
+              </span>
+            </div>
+          </div>
         </div>
         <ul class="attachment-list" *ngIf="files.length > 0">
           <li class="attachment-list__item" *ngFor="let file of files">
