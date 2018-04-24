@@ -71,6 +71,24 @@ describe('NewsComponent', () => {
       expect(component.direction).toBe(-1);
     });
   });
+  describe('comment readmore property', () => {
+    beforeEach(() => {
+      component.results.push(new News({
+        content: 'Hello World!'
+      }));
+    });
+    describe('on load', () => {
+      it('should initially be undefined', () => {
+        expect(Object.keys(component.results[0]).includes('readmore')).toBeFalsy;
+      });
+    });
+    describe('after expanding a comment', () => {
+      it('should be defined', () => {
+        component.readmore(component.results[0]);
+        expect(Object.keys(component.results[0]).includes('readmore')).toBeTruthy;
+      });
+    });
+  });
   describe('sort(property)', () => {
     let property;
 
@@ -125,6 +143,35 @@ describe('NewsComponent', () => {
       component.filterType = 'test';
       component.clearAllNewsFilters();
       expect(component.filterType).toBeFalsy;
+    });
+  });
+  describe('setDocumentUrl', () => {
+    it('should set results.documentUrl to \'\' when given no document url', () => {
+      const data = [
+        {
+          documentUrl: ''
+        }
+      ];
+      component.setDocumentUrl(data);
+      expect(data[0].documentUrl).toBe('');
+    });
+    it('should not change results.documentUrl when given a www url', () => {
+      const data = [
+        {
+          documentUrl: 'http://www.test.com'
+        }
+      ];
+      component.setDocumentUrl(data);
+      expect(data[0].documentUrl).toBe('http://www.test.com');
+    });
+    it('should set results.documentUrl to \'http://localhost:3000/blarg\' when given an esm-server document', () => {
+      const data = [
+        {
+          documentUrl: '/blarg'
+        }
+      ];
+      component.setDocumentUrl(data);
+      expect(data[0].documentUrl).toBe('http://localhost:3000/blarg');
     });
   });
 });

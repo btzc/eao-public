@@ -36,6 +36,7 @@ describe('ProjectDetailComponent', () => {
               project: {
                 'recent_activities': [
                   {
+                    'content': 'Hello World!',
                     'dateAdded': '2017-12-14T17:00:00.000Z'
                   }
                 ]
@@ -96,7 +97,22 @@ describe('ProjectDetailComponent', () => {
       expect(component.direction).toBe(-1);
     });
   });
-
+  describe('content readmore property', () => {
+    let contentKeys;
+    describe('on load', () => {
+      it('should initially be undefined', () => {
+        contentKeys = Object.keys(component.project.recent_activities[0]);
+        expect(contentKeys.includes('readmore')).toBeFalsy;
+      });
+    });
+    describe('after expanding a comment', () => {
+      it('should be defined', () => {
+        component.readmore(component.project.recent_activities[0]);
+        contentKeys = Object.keys(component.project.recent_activities[0]);
+        expect(contentKeys.includes('readmore')).toBeTruthy;
+      });
+    });
+  });
   describe('sort(property)', () => {
     let property;
 
@@ -164,6 +180,41 @@ describe('ProjectDetailComponent', () => {
       component.project.code = 'test';
       component.gotoMap();
       expect(router.navigate).toHaveBeenCalledWith(['/map', { project: component.project.code}]);
+    });
+  });
+  describe('setDocumentUrl', () => {
+    it('should set results.documentUrl to \'\' when no document url ', () => {
+      const data = {
+        recent_activities: [
+          {
+            documentUrl: ''
+          }
+        ]
+      };
+      component.setDocumentUrl(data);
+      expect(data.recent_activities[0].documentUrl).toBe('');
+    });
+    it('should not change results.documentUrl when given a www url', () => {
+      const data = {
+        recent_activities: [
+          {
+            documentUrl: 'http://www.test.com'
+          }
+        ]
+      };
+      component.setDocumentUrl(data);
+      expect(data.recent_activities[0].documentUrl).toBe('http://www.test.com');
+    });
+    it('should set results.documentUrl to \'http://localhost:3000/blarg\' when given an esm-server document ', () => {
+      const data = {
+        recent_activities: [
+          {
+            documentUrl: '/blarg'
+          }
+        ]
+      };
+      component.setDocumentUrl(data);
+      expect(data.recent_activities[0].documentUrl).toBe('http://localhost:3000/blarg');
     });
   });
 });

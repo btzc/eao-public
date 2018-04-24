@@ -48,4 +48,7 @@ export class CommentPeriodComponent implements OnInit {
     const step1 = document.getElementById('step1');
     step1.classList.remove('hidden');
   };
+  readmore(item): void {
+    item.readmore = !item.readmore;
+  }
 }
