@@ -1,6 +1,6 @@
 <div class="modal-content hidden" id="step2">
   <div class="modal-header">
-    <h5 class="modal-title" id="submitCommentModalLabel">Submit a Comment</h5>
+    <h3 class="modal-title" id="submitCommentModalLabel">Submit a Comment</h3>
   </div>
   <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
     <div class="modal-body submit-comment-form">
@@ -26,18 +26,16 @@
           <label for="file">Upload Attachments</label>
           <input type="file" class="form-control-file" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple ngModel>
         </div>
-        <div *ngIf="files.length > 0">
-          <table>
-            <tr *ngFor="let file of files">
-              <td>
-                {{ file.name }}
-              </td>
-              <td>
-                  <button class="btn btn-danger" type="button" (click)="removeDocument($event)">Delete me</button>
-              </td>
-            </tr>
-          </table>
-        </div>
+        <ul class="attachment-list" *ngIf="files.length > 0">
+          <li class="attachment-list__item" *ngFor="let file of files">
+            <span class="attachment-list__item-name">
+              {{file.name}}
+            </span>
+            <span class="attachment-list__item-action">
+              <button class="btn btn-danger" type="button" (click)="removeDocument($event)">Delete me</button>
+            </span>
+          </li>
+        </ul>
     </div>
     <div class="modal-footer">
       <button type="button" (click)="hideAllSteps()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

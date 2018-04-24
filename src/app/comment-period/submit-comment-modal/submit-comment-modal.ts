@@ -73,7 +73,7 @@ export class SubmitCommentModalComponent {
 
   removeDocument(event) {
     const deleteButton = event.target;
-    const fileName = deleteButton.closest('tr').children[0].innerHTML.trim();
+    const fileName = deleteButton.closest('.attachment-list__item').children[0].innerHTML.trim();
 
     this.files.forEach((file, index) => {
       if (file.name === fileName) {
