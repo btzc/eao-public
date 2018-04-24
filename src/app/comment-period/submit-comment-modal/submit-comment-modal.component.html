@@ -2,7 +2,7 @@
   <div class="modal-header">
     <h3 class="modal-title" id="submitCommentModalLabel">Submit a Comment</h3>
   </div>
-  <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" id="submitCommentForm">
     <div class="modal-body submit-comment-form">
         <div class="form-group">
           <label for="author">Your Name</label>
