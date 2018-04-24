@@ -3,33 +3,45 @@
     <h5 class="modal-title" id="submitCommentModalLabel">Submit a Comment</h5>
   </div>
   <div class="modal-body">
-    <form>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
       <div class="form-group">
-        <label for="exampleInputEmail1">Name</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <label for="author">Name</label>
+        <input class="form-control" id="author" name="author" placeholder="Enter name" ngModel>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Location</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <label for="location">Location</label>
+        <input class="form-control" id="location" name="location" placeholder="Enter location" ngModel>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-        <label class="form-check-label" for="defaultCheck1">
+        <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" ngModel>
+        <label class="form-check-label" for="visible">
           Make my Name visible to public.
         </label>
       </div>
       <div class="form-group">
-        <label for="exampleFormControlTextarea1">Your Comment</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <label for="comment">Your Comment</label>
+        <textarea class="form-control" id="comment" name="comment" rows="3" ngModel></textarea>
       </div>
       <div class="form-group">
-        <label for="exampleFormControlFile1">Upload Attachments</label>
-        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+        <label for="file">Upload Attachments</label>
+        <input type="file" class="form-control-file" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple ngModel>
       </div>
+      <div *ngIf="files.length > 0">
+        <table>
+          <tr *ngFor="let file of files">
+            <td>
+              {{ file.name }}
+            </td>
+            <td>
+                <button class="btn btn-danger" type="button" (click)="removeDocument($event)">Delete me</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <button class="btn btn-primary" type="submit" (click)="triggerSubmitComment()">Submit Comment</button>
     </form>
   </div>
   <div class="modal-footer">
     <button type="button" (click)="hideAllSteps()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-    <button type="submit" (click)="triggerSubmitComment()" class="btn btn-primary">Submit Comment</button>
   </div>
 </div>
