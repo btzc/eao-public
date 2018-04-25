@@ -1,15 +1,15 @@
 <div class="modal-content hidden" id="step2">
   <div class="modal-header">
-    <h3 class="modal-title" id="submitCommentModalLabel">Submit a Comment</h3>
+    <h3 class="modal-title" id="submitCommentModalLabel">Submit a Comment &nbsp;&rsaquo;&nbsp; Your Comment</h3>
   </div>
   <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f.valid)" id="submitCommentForm" novalidate>
     <div class="modal-body submit-comment-form">
         <div class="form-group">
           <label for="author">Your Name <em>(Required)</em></label>
           <input class="form-control" id="author" name="author" [(ngModel)]="comment.author" #author="ngModel" required>
-          <small [hidden]="author.valid || (author.pristine && !f.submitted)">
+          <span [hidden]="author.valid || (author.pristine && !f.submitted)">
             Author is required
-          </small>
+          </span>
         </div>
         <div class="form-check">
           <label class="form-check-label" for="visible">

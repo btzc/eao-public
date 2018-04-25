@@ -17,7 +17,7 @@
       <section class="mb-0">
         <h2>About this comment period...</h2>
         <p>A 30 day public comment period on the {{ commentPeriod.informationLabel }} will start on {{ commentPeriod.dateStarted | date: 'longDate' }} and end on {{ commentPeriod.dateCompleted | date: 'longDate' }}.  All written comments received by online form, fax, or mail during this time period will be considered.</p>
-        <button class="btn submit-btn" (click)="triggerSubmitComment()"
+        <button class="btn btn-primary" (click)="triggerSubmitComment()"
           data-toggle="modal"
           data-target="#submitCommentModal"
           data-backdrop="static">Submit a Comment
@@ -28,17 +28,11 @@
               <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
                   <a class="nav-link active" role="tab">
-                    <!--
-                    <i class="material-icons md-24">&#xE0CA;</i>
-                    -->
                     <span>Comments ({{commentPeriod.comments.length}})</span>
                   </a>
                 </li>
                 <li class="nav-item" role="presentation">
                   <a class="nav-link" role="tab">
-                    <!--
-                    <i class="material-icons md-24">&#xE24D;</i>
-                    -->
                     <span>Related Documents</span>
                   </a>
                 </li>
@@ -164,7 +158,7 @@
 
 <!-- SUBMIT A COMMENT -->
 <div class="modal fade" id="submitCommentModal" tabindex="-1" role="dialog" aria-labelledby="submitCommentModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg submit-comment">
+  <div class="modal-dialog modal-lg submit-comment-modal">
     <app-pcp-info-modal></app-pcp-info-modal>
     <app-submit-comment-modal></app-submit-comment-modal>
     <app-submit-comment-progress-modal></app-submit-comment-progress-modal>

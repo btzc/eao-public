@@ -38,3 +38,30 @@
     font-weight: 700;
   }
 }
+
+::ng-deep {
+  .modal-header {
+    padding-top: 1.5rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    border: none;
+
+    h3 {
+      font-size: 1.75rem;
+    }
+  }
+
+  .modal-body {
+    padding: 2rem;
+    padding-top: 0;
+  }
+
+  .modal-footer {
+    padding-top: 0;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    border: none;
+  }
+}
