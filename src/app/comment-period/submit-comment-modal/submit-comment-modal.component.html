@@ -9,7 +9,7 @@
           <input class="form-control" id="author" name="author" ngModel>
         </div>
         <div class="form-check">
-          <label class="form-check-label" for="visible">
+          <label class="form-check-label mb-0" for="visible">
             <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" ngModel>Make my name visible to public.
           </label>
           <span class="form-text">All comments are submitted anonymously by default, unless you specify that you would like your name to be visible.</span>
@@ -24,14 +24,19 @@
         </div>
         <div class="form-group">
           <label class="mb-0" for="file">Upload Attachments</label>
-          <span class="form-text mt-0">Total cannot exceed 5NB for all attached files</span>
-          <ul class="file-upload__list mt-2" *ngIf="files.length > 0">
+          <span class="form-text mt-0">Total uploads Cannot exceed 5MB.</span>
+          <ul class="file-upload__list mt-2 mb-3" *ngIf="files.length > 0">
             <li class="file-upload__list-item" *ngFor="let file of files">
+              <span class="file-upload__list-item-icon">
+                <i class="material-icons">&#xE2BC;</i>
+              </span>
               <span class="file-upload__list-item-name">
                 {{file.name}}
               </span>
               <span class="file-upload__list-item-action">
-                <button class="btn btn-danger" type="button" (click)="removeDocument($event)">Delete me</button>
+                <button class="btn btn-default" type="button" (click)="removeDocument($event)">
+                  <i class="material-icons md-18">&#xE5CD;</i>
+                </button>
               </span>
             </li>
           </ul>

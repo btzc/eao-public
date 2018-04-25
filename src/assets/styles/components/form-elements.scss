@@ -50,8 +50,6 @@ input {
 		@include placeholder {
 			color: $fc-placeholder-color
 		}
-
-		box-shadow: $fc-inner-shadow inset;
 	}
 
 	&[type="text"] {
