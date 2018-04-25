@@ -5,45 +5,46 @@
   <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" id="submitCommentForm">
     <div class="modal-body submit-comment-form">
         <div class="form-group">
-          <label for="author">Your Name</label>
+          <label for="author">Your Name <em>(Required)</em></label>
           <input class="form-control" id="author" name="author" ngModel>
         </div>
         <div class="form-check">
           <label class="form-check-label" for="visible">
-            <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" ngModel>Make my Name visible to public.
+            <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" ngModel>Make my name visible to public.
           </label>
-          <small class="form-text">Selecting this option will make your name visible to the public.</small>
+          <span class="form-text">All comments are submitted anonymously by default, unless you specify that you would like your name to be visible.</span>
         </div>
         <div class="form-group">
-          <label for="location">Location</label>
+          <label for="location">Location <em>(Required)</em></label>
           <input class="form-control" id="location" name="location" placeholder="EG: City, Town, etc." ngModel>
         </div>
         <div class="form-group">
-          <label for="comment">Your Comment</label>
-          <textarea class="form-control" id="comment" name="comment" rows="3" ngModel></textarea>
+          <label for="comment">Your Comment <em>(Required)</em></label>
+          <textarea class="form-control" id="comment" name="comment" rows="8" ngModel></textarea>
         </div>
         <div class="form-group">
-          <label for="file">Upload Attachments</label>
-          <div class="file-upload">
+          <label class="mb-0" for="file">Upload Attachments</label>
+          <span class="form-text mt-0">Total cannot exceed 5NB for all attached files</span>
+          <ul class="file-upload__list mt-2" *ngIf="files.length > 0">
+            <li class="file-upload__list-item" *ngFor="let file of files">
+              <span class="file-upload__list-item-name">
+                {{file.name}}
+              </span>
+              <span class="file-upload__list-item-action">
+                <button class="btn btn-danger" type="button" (click)="removeDocument($event)">Delete me</button>
+              </span>
+            </li>
+          </ul>
+          <div class="file-upload mt-2">
             <input type="file" class="form-control" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple ngModel>
             <div class="file-upload__target">
-              <span class="file-upload__info">
-                <span class="file-upload__prompt-msg">Drag Files here or Click to Select Files</span>
-                <span class="file-upload__requirements">Maximum Size 5mb for all uploaded files</span>
+              <span class="file-upload__prompt">
+                <i class="file-upload__prompt-icon material-icons">&#xE2C6;</i>
+                <span class="file-upload__prompt-msg">Drag Files here or Click to select files</span>
               </span>
             </div>
           </div>
         </div>
-        <ul class="attachment-list" *ngIf="files.length > 0">
-          <li class="attachment-list__item" *ngFor="let file of files">
-            <span class="attachment-list__item-name">
-              {{file.name}}
-            </span>
-            <span class="attachment-list__item-action">
-              <button class="btn btn-danger" type="button" (click)="removeDocument($event)">Delete me</button>
-            </span>
-          </li>
-        </ul>
     </div>
     <div class="modal-footer">
       <button type="button" (click)="hideAllSteps()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
