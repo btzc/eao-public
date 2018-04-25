@@ -19,13 +19,16 @@
         <p>All accepted comments submitted to the Environmental Assessment Office (EAO) will be published online within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our Public Comment Policy [PDF].</p>
         <p>EAO forwards all accepted comments to the project proponent so they can be considered during the project's environmental assessment.</p>
         <div class="comment-btns mt-3">
-          <button class="btn btn-primary" (click)="triggerSubmitComment()"
+          <button class="btn btn-primary slide-l-btn" (click)="triggerSubmitComment()"
             data-toggle="modal"
             data-target="#submitCommentModal"
-            data-backdrop="static">Submit a Comment
+            data-backdrop="static">
+            <i class="material-icons">&#xE0B9;</i>
+            <span>Submit a Comment</span>
           </button>
-          <button class="btn btn-primary">
-            View the Documents
+          <button class="btn btn-primary slide-l-btn">
+            <i class="material-icons">&#xE89E;</i>
+            <span>View the Documents</span>
           </button>
         </div>
       </section>
@@ -112,10 +115,17 @@
           </div>
         </div>
       </section>
+
+      <!-- TODO: RELATED DOCUMENTS INTERFACE
+        <ul>
++         <li *ngFor="let relDoc of commentPeriod.relatedDocuments"><a href="{{ hostname + '/api/document/' + relDoc._id + '/fetch' }}" target="_blank"><span>{{ relDoc.displayName }}</span></a></li>
++       </ul>
+      -->
+
     </main>
     <aside class="col-lg-4">
       <section class="card">
-        <h4 class="card-header">Details</h4>
+        <h4 class="card-header">Comment Period Details</h4>
         <div class="card-body">
         <ul class="nv-list mine-details-list">
           <li>
