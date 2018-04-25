@@ -2,58 +2,62 @@
   <div class="modal-header">
     <h3 class="modal-title" id="submitCommentModalLabel">Submit a Comment</h3>
   </div>
-  <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" id="submitCommentForm">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f.valid)" id="submitCommentForm" novalidate>
     <div class="modal-body submit-comment-form">
         <div class="form-group">
           <label for="author">Your Name <em>(Required)</em></label>
-          <input class="form-control" id="author" name="author" ngModel>
+          <input class="form-control" id="author" name="author" [(ngModel)]="comment.author" #author="ngModel" required>
+          <small [hidden]="author.valid || (author.pristine && !f.submitted)">
+            Author is required
+          </small>
         </div>
         <div class="form-check">
-          <label class="form-check-label mb-0" for="visible">
-            <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" ngModel>Make my name visible to public.
+          <label class="form-check-label" for="visible">
+            <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" [(ngModel)]="comment.isAnonymous" #isAnonymous="ngModel">Make my Name visible to public.
           </label>
           <span class="form-text">All comments are submitted anonymously by default, unless you specify that you would like your name to be visible.</span>
         </div>
         <div class="form-group">
           <label for="location">Location <em>(Required)</em></label>
-          <input class="form-control" id="location" name="location" placeholder="EG: City, Town, etc." ngModel>
+          <input class="form-control" id="location" name="location" placeholder="EG: City, Town, etc." [(ngModel)]="comment.location" #location="ngModel" required>
         </div>
         <div class="form-group">
           <label for="comment">Your Comment <em>(Required)</em></label>
-          <textarea class="form-control" id="comment" name="comment" rows="8" ngModel></textarea>
+          <textarea class="form-control" id="comment" name="comment" rows="3" [(ngModel)]="comment.comment" #comment="ngModel" required></textarea>
         </div>
+
         <div class="form-group">
-          <label class="mb-0" for="file">Upload Attachments</label>
-          <span class="form-text mt-0">Total uploads Cannot exceed 5MB.</span>
-          <ul class="file-upload__list mt-2 mb-3" *ngIf="files.length > 0">
-            <li class="file-upload__list-item" *ngFor="let file of files">
-              <span class="file-upload__list-item-icon">
-                <i class="material-icons">&#xE2BC;</i>
-              </span>
-              <span class="file-upload__list-item-name">
-                {{file.name}}
-              </span>
-              <span class="file-upload__list-item-action">
-                <button class="btn btn-default" type="button" (click)="removeDocument($event)">
-                  <i class="material-icons md-18">&#xE5CD;</i>
-                </button>
-              </span>
-            </li>
-          </ul>
-          <div class="file-upload mt-2">
-            <input type="file" class="form-control" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple ngModel>
-            <div class="file-upload__target">
-              <span class="file-upload__prompt">
-                <i class="file-upload__prompt-icon material-icons">&#xE2C6;</i>
-                <span class="file-upload__prompt-msg">Drag Files here or Click to select files</span>
-              </span>
+            <label class="mb-0" for="file">Upload Attachments</label>
+            <span class="form-text mt-0">Total uploads Cannot exceed 5MB.</span>
+            <ul class="file-upload__list mt-2 mb-3" *ngIf="files.length > 0">
+              <li class="file-upload__list-item" *ngFor="let file of files">
+                <span class="file-upload__list-item-icon">
+                  <i class="material-icons">&#xE2BC;</i>
+                </span>
+                <span class="file-upload__list-item-name">
+                  {{file.name}}
+                </span>
+                <span class="file-upload__list-item-action">
+                  <button class="btn btn-default" type="button" (click)="removeDocument($event)">
+                    <i class="material-icons md-18">&#xE5CD;</i>
+                  </button>
+                </span>
+              </li>
+            </ul>
+            <div class="file-upload mt-2">
+              <input type="file" class="form-control" id="file" name="file" size="5000000" (change)="onFileChange($event, f.value)" multiple [(ngModel)]="comment.documents" #documents="ngModel">
+              <div class="file-upload__target">
+                <span class="file-upload__prompt">
+                  <i class="file-upload__prompt-icon material-icons">&#xE2C6;</i>
+                  <span class="file-upload__prompt-msg">Drag Files here or Click to select files</span>
+                </span>
+              </div>
             </div>
-          </div>
         </div>
     </div>
     <div class="modal-footer">
       <button type="button" (click)="hideAllSteps()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-      <button class="btn btn-primary" type="submit" (click)="triggerSubmitComment()">Submit Comment</button>
+      <button class="btn btn-primary" type="submit">Submit Comment</button>
     </div>
   </form>
 </div>

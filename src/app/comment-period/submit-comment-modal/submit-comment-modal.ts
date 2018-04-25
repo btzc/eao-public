@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommentPeriodService } from '../../services/comment-period.service';
 import { CommentPeriodComponent } from '../comment-period.component';
 import { RequestOptions } from '@angular/http';
@@ -8,16 +8,31 @@ import { RequestOptions } from '@angular/http';
   templateUrl: './submit-comment-modal.component.html',
   styleUrls: ['./submit-comment-modal.component.scss']
 })
-export class SubmitCommentModalComponent {
+export class SubmitCommentModalComponent implements OnInit {
   files = [];
+  comment;
+  valid: boolean;
 
   constructor(private commentPeriodService: CommentPeriodService, private commentPeriodComponent: CommentPeriodComponent) { };
+
+  ngOnInit() {
+    this.comment = {
+      author: '',
+      isAnonymous: false,
+      location: '',
+      comment: ''
+    };
+  }
 
   triggerSubmitComment() {
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
     step2.classList.add('hidden');
     step3.classList.remove('hidden');
+  }
+
+  validateFields(form) {
+
   }
 
   onFileChange(event, form) {
@@ -40,7 +55,7 @@ export class SubmitCommentModalComponent {
     }
   }
 
-  onSubmit(form) {
+  onSubmit(form, valid) {
     const htmlForm = <HTMLFormElement>document.getElementById('submitCommentForm');
     const commentPeriodId = this.commentPeriodComponent.commentPeriod._id;
     const projectId = this.commentPeriodComponent.commentPeriod.project._id;
@@ -53,7 +68,17 @@ export class SubmitCommentModalComponent {
       isAnonymous: form.visible,
       comment: form.comment
     };
+    this.valid = valid;
 
+    if (this.valid) {
+      this.validateFields(form);
+    }
+
+    if (!this.valid) {
+      return false;
+    }
+
+    this.triggerSubmitComment();
 
     const documentsForms = [];
     this.files.forEach((doc, index) => {
@@ -76,7 +101,7 @@ export class SubmitCommentModalComponent {
 
   removeDocument(event) {
     const deleteButton = event.target;
-    const fileName = deleteButton.closest('.file-upload__list').children[0].innerHTML.trim();
+    const fileName = deleteButton.closest('.attachment-list__item').children[0].innerHTML.trim();
 
     this.files.forEach((file, index) => {
       if (file.name === fileName) {
