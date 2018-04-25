@@ -12,6 +12,7 @@ export class SubmitCommentModalComponent implements OnInit {
   files = [];
   comment;
   valid: boolean;
+  loading: boolean;
 
   constructor(private commentPeriodService: CommentPeriodService, private commentPeriodComponent: CommentPeriodComponent) { };
 
@@ -49,6 +50,7 @@ export class SubmitCommentModalComponent implements OnInit {
   }
 
   validateFields(form) {
+    let size = 0;
     if (!form.author) {
       this.displayError(document.getElementById('author'));
       this.valid = false;
@@ -62,10 +64,11 @@ export class SubmitCommentModalComponent implements OnInit {
       this.valid = false;
     }
     this.files.forEach(file => {
-      if (file.size > 5000000) {
-        this.valid = false;
-      }
+      size += file.size;
     });
+    if (size > 5000000) {
+      return false;
+    }
     return this.valid;
   }
 
@@ -91,7 +94,7 @@ export class SubmitCommentModalComponent implements OnInit {
 
   removeDocument(event) {
     const deleteButton = event.target;
-    const fileName = deleteButton.closest('.attachment-list__item').children[0].innerHTML.trim();
+    const fileName = deleteButton.closest('.file-upload__list-item').querySelector('.file-upload__list-item-name').innerHTML.trim();
 
     this.files.forEach((file, index) => {
       if (file.name === fileName) {
@@ -115,14 +118,16 @@ export class SubmitCommentModalComponent implements OnInit {
     };
 
     this.valid = true;
+    this.loading = true;
 
     this.validateFields(form);
 
     if (!this.valid) {
+      this.loading = false;
       return false;
     }
 
-    this.triggerSubmitComment();
+    // setTimeout(function(){}, 20);
 
     const documentsForms = [];
     this.files.forEach((doc, index) => {
@@ -135,8 +140,10 @@ export class SubmitCommentModalComponent implements OnInit {
 
     this.commentPeriodService.submitComment(projectId, documentsForms, commentForm, options).subscribe(
       data => {
+        this.loading = false;
         htmlForm.reset();
         this.files = [];
+        this.triggerSubmitComment();
         console.log(data);
       },
       error => console.log(error)
