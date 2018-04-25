@@ -13,6 +13,7 @@ export class SubmitCommentModalComponent implements OnInit {
   comment;
   valid: boolean;
   loading: boolean;
+  error: boolean;
 
   constructor(private commentPeriodService: CommentPeriodService, private commentPeriodComponent: CommentPeriodComponent) { };
 
@@ -27,7 +28,6 @@ export class SubmitCommentModalComponent implements OnInit {
 
   removeError(event) {
     event.target.classList.remove('error');
-    event.target.nextElementSibling.setAttribute('hidden', 'false');
     event.target.closest('.form-group').classList.remove('has-danger');
   }
 
@@ -39,14 +39,12 @@ export class SubmitCommentModalComponent implements OnInit {
     }
     for (let n = 0; n < errors.length; n++) {
       errors[n].classList.remove('error');
-      errors[n].nextElementSibling.setAttribute('hidden', 'true');
     }
   }
 
   displayError(element) {
     element.closest('.form-group').classList.add('has-danger');
     element.classList.add('error', 'form-control-danger');
-    element.nextElementSibling.removeAttribute('hidden');
   }
 
   validateFields(form) {
@@ -67,6 +65,7 @@ export class SubmitCommentModalComponent implements OnInit {
       size += file.size;
     });
     if (size > 5000000) {
+      this.displayError(document.getElementById('file'));
       return false;
     }
     return this.valid;
@@ -127,8 +126,6 @@ export class SubmitCommentModalComponent implements OnInit {
       return false;
     }
 
-    // setTimeout(function(){}, 20);
-
     const documentsForms = [];
     this.files.forEach((doc, index) => {
       const document = new FormData();
@@ -144,9 +141,12 @@ export class SubmitCommentModalComponent implements OnInit {
         htmlForm.reset();
         this.files = [];
         this.triggerSubmitComment();
-        console.log(data);
       },
-      error => console.log(error)
+      error => {
+        this.error = true;
+        this.loading = false;
+        console.log(error);
+      }
     );
   }
 
