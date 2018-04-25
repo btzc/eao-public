@@ -2,6 +2,16 @@
 @import "~assets/styles/components/activity-feed.scss";
 @import "~assets/styles/components/attachments.scss";
 
+.comment-btns {
+  margin-bottom: 2rem;
+
+  .btn {
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+}
+
 .comment-feed {
   .title-container {
     &__title {
