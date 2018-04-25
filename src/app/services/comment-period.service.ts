@@ -25,7 +25,7 @@ export class CommentPeriodService {
     this.comment = comment;
 
     // if no documents
-    if (documents.length < 0) {
+    if (documents.length === 0) {
       return this.submitCommentNoDocument(projectId, options);
     // if document
     } else {

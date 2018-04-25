@@ -18,21 +18,55 @@ export class SubmitCommentModalComponent implements OnInit {
   ngOnInit() {
     this.comment = {
       author: '',
-      isAnonymous: false,
       location: '',
+      visible: false,
       comment: ''
     };
   }
 
-  triggerSubmitComment() {
-    const step2 = document.getElementById('step2');
-    const step3 = document.getElementById('step3');
-    step2.classList.add('hidden');
-    step3.classList.remove('hidden');
+  removeError(event) {
+    event.target.classList.remove('error');
+    event.target.nextElementSibling.setAttribute('hidden', 'false');
+    event.target.closest('.form-group').classList.remove('has-danger');
+  }
+
+  removeErrors() {
+    const controls = document.querySelectorAll('.form-group');
+    const errors = document.querySelectorAll('.error');
+    for (let i = 0; i < controls.length; i++) {
+      controls[i].classList.remove('has-danger');
+    }
+    for (let n = 0; n < errors.length; n++) {
+      errors[n].classList.remove('error');
+      errors[n].nextElementSibling.setAttribute('hidden', 'true');
+    }
+  }
+
+  displayError(element) {
+    element.closest('.form-group').classList.add('has-danger');
+    element.classList.add('error', 'form-control-danger');
+    element.nextElementSibling.removeAttribute('hidden');
   }
 
   validateFields(form) {
-
+    if (!form.author) {
+      this.displayError(document.getElementById('author'));
+      this.valid = false;
+    }
+    if (!form.location) {
+      this.displayError(document.getElementById('location'));
+      this.valid = false;
+    }
+    if (!form.comment) {
+      this.displayError(document.getElementById('comment'));
+      this.valid = false;
+    }
+    this.files.forEach(file => {
+      if (file.size > 5000000) {
+        this.valid = false;
+      }
+    });
+    return this.valid;
   }
 
   onFileChange(event, form) {
@@ -55,7 +89,18 @@ export class SubmitCommentModalComponent implements OnInit {
     }
   }
 
-  onSubmit(form, valid) {
+  removeDocument(event) {
+    const deleteButton = event.target;
+    const fileName = deleteButton.closest('.attachment-list__item').children[0].innerHTML.trim();
+
+    this.files.forEach((file, index) => {
+      if (file.name === fileName) {
+        this.files.splice(index, 1);
+      }
+    });
+  }
+
+  private onSubmit(form) {
     const htmlForm = <HTMLFormElement>document.getElementById('submitCommentForm');
     const commentPeriodId = this.commentPeriodComponent.commentPeriod._id;
     const projectId = this.commentPeriodComponent.commentPeriod.project._id;
@@ -65,14 +110,13 @@ export class SubmitCommentModalComponent implements OnInit {
       project: projectId,
       author: form.author,
       location: form.location,
-      isAnonymous: form.visible,
+      isAnonymous: form.visible ? !form.visible : true,
       comment: form.comment
     };
-    this.valid = valid;
 
-    if (this.valid) {
-      this.validateFields(form);
-    }
+    this.valid = true;
+
+    this.validateFields(form);
 
     if (!this.valid) {
       return false;
@@ -99,20 +143,17 @@ export class SubmitCommentModalComponent implements OnInit {
     );
   }
 
-  removeDocument(event) {
-    const deleteButton = event.target;
-    const fileName = deleteButton.closest('.attachment-list__item').children[0].innerHTML.trim();
-
-    this.files.forEach((file, index) => {
-      if (file.name === fileName) {
-        this.files.splice(index, 1);
-      }
-    });
+  triggerSubmitComment() {
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    step2.classList.add('hidden');
+    step3.classList.remove('hidden');
   }
 
   hideAllSteps() {
     const form = <HTMLFormElement>document.getElementById('submitCommentForm');
     form.reset();
+    this.removeErrors();
     this.files = [];
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');

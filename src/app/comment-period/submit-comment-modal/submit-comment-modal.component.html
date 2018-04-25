@@ -2,28 +2,34 @@
   <div class="modal-header">
     <h3 class="modal-title" id="submitCommentModalLabel">Submit a Comment &nbsp;&rsaquo;&nbsp; Your Comment</h3>
   </div>
-  <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f.valid)" id="submitCommentForm" novalidate>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" id="submitCommentForm" novalidate>
     <div class="modal-body submit-comment-form">
         <div class="form-group">
-          <label for="author">Your Name <em>(Required)</em></label>
-          <input class="form-control" id="author" name="author" [(ngModel)]="comment.author" #author="ngModel" required>
-          <span [hidden]="author.valid || (author.pristine && !f.submitted)">
+          <label class="form-control-label" for="author">Your Name <em>(Required)</em></label>
+          <input class="form-control" id="author" name="author" (focus)="removeError($event)" [(ngModel)]="comment.author" #author="ngModel" required>
+          <span class="form-control-feedback" [hidden]="author.valid || (author.pristine && !f.submitted)">
             Author is required
           </span>
         </div>
         <div class="form-check">
           <label class="form-check-label" for="visible">
-            <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" [(ngModel)]="comment.isAnonymous" #isAnonymous="ngModel">Make my Name visible to public.
+            <input class="form-check-input" type="checkbox" value="" id="visible" name="visible" [(ngModel)]="comment.visible" #visible="ngModel">Make my Name visible to public.
           </label>
           <span class="form-text">All comments are submitted anonymously by default, unless you specify that you would like your name to be visible.</span>
         </div>
         <div class="form-group">
-          <label for="location">Location <em>(Required)</em></label>
-          <input class="form-control" id="location" name="location" placeholder="EG: City, Town, etc." [(ngModel)]="comment.location" #location="ngModel" required>
+          <label class="form-control-label" for="location">Location <em>(Required)</em></label>
+          <input class="form-control" id="location" name="location" placeholder="EG: City, Town, etc." (focus)="removeError($event)" [(ngModel)]="comment.location" #location="ngModel">
+          <span class="form-control-feedback" [hidden]="location.valid || (location.pristine && !f.submitted)">
+            Location is required
+          </span>
         </div>
         <div class="form-group">
-          <label for="comment">Your Comment <em>(Required)</em></label>
-          <textarea class="form-control" id="comment" name="comment" rows="3" [(ngModel)]="comment.comment" #comment="ngModel" required></textarea>
+          <label class="form-control-label" for="comment">Your Comment <em>(Required)</em></label>
+          <textarea class="form-control" id="comment" name="comment" rows="3" (focus)="removeError($event)" [(ngModel)]="comment.comment" #comment="ngModel"></textarea>
+          <span class="form-control-feedback" [hidden]="comment.valid || (comment.pristine && !f.submitted)">
+            Comment is required
+          </span>
         </div>
 
         <div class="form-group">
